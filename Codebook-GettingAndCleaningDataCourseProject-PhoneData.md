@@ -1,7 +1,7 @@
 ---
-title: "Codebook-Getting and Cleaning Data - Phone Data"
-author: "Simon Stainsby"
-date: "14/02/2015"
+title: "Codebook - runanalysis.R
+author: "Simon Stainsby" aka FunOnTheUpfield
+date: "20/02/2015"
 output: html_document
 ---
 
@@ -11,9 +11,15 @@ The output files of run_analysis.R have the following values:
 
 **Physicial_Activity** (Factor) A descriptor of the participant's physical activity at the time of measurement.  It has one of six possible values: ( WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING)
 
+**PhoneMeasurement**  These are the values collected by the UCI HAR team and comprise data collected from the Samsung Galaxy 3 phones.  Descriptions of the values and the signal pre-processing undertaken to create these results from raw phone accelometer and gyroscope readings is described in the file 'UCI HAR Dataset/features_info.txt'
 
-**Phone Data Values**
-These values are explained in detail in the document 'UCI HAR Dataset/features_info.txt'
+**Value** The calculated values from the UCI HAR team range from -1 to +1
+
+
+
+
+More info about the Phone Data Values
+
 
 ** Body accelerometer signals - mean of measurements in x,y and z axis**
 
@@ -140,4 +146,3 @@ tBodyAcc-correlation()-Y,Z
 * fBodyAccJerkMag
 * fBodyGyroMag
 * fBodyGyroJerkMag
-
