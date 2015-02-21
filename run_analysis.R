@@ -6,68 +6,24 @@
 # GitHub: @FunOnTheUpfield
 # ----------------------------
 
-# For installation instructions see ReadMe.md file
-
-# Script takes the results from UCI HAR Dataset 
-#(motion measurements from 30 subjects wearing Sumsung smart phones)
-# and creates:
-# A summary file listing the mean and standard deviation of each of the 477 data categories collected
-# A summary by participant and activity file with mean and standard deviation values.
-
-# ----------------------------
-
-print("This script takes about 15 minutes to run.  Go make a cup of tea.")
-
-# 1a.  Get the data
-
-if(!file.exists("data")){
-  # Create a data directory to store the raw data if required.
-  dir.create("data")
-}
+# A program to read UCI HAR Dataset and produce summary files
+# For installation instructions see ReadMe.md file in this directory.
 
 
-if(!file.exists("./data/UCI HAR Dataset")){     
-  # Download data there is if no local copy
-  
-  fileurl <- 'https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip' 
-  temp<- tempfile()
-  
-  download.file(fileurl, 
-                method = "wget",
-                destfile="data/UCI_HAR_Dataset.zip",
-                mode = "wb")
-  
-  # Unzip the files and read into R.  
-  unzip("data/UCI_HAR_Dataset.zip")
+# This script creates tidy data with the following qualities;
 
 
-  features <- read.table(unz(temp, "./data/UCI HAR Dataset/features.txt"))
-  activitylabels <- read.table(unz(temp, "./data/UCI HAR Dataset/activity_labels.txt"))
-  
-  testsubject <- read.table(unz(temp, "./data/UCI HAR Dataset/test/subject_test.txt" ))
-  testlabels <- read.table(unz(temp, "./data/UCI HAR Dataset/test/y_test.txt"))
-  testset <- read.table(unz(temp, "./data/UCI HAR Dataset/test/X_test.txt"))
-  
-  trainsubject <- read.table(unz(temp, "./data/UCI HAR Dataset/train/subject_train.txt" ))
-  trainlabels <- read.table(unz(temp, "./data/UCI HAR Dataset/train/y_train.txt"))
-  trainset <- read.table(unz(temp, "./data/UCI HAR Dataset/train/X_train.txt" )) 
-  
-  unlink(temp)
-  
-}else{
-  # Data has been downloaded and manually unzipped.
-  features <- read.table("./data/UCI HAR Dataset/features.txt")
-  activitylabels <- read.table("./data/UCI HAR Dataset/activity_labels.txt")
-  
-  testsubject <- read.table("./data/UCI HAR Dataset/test/subject_test.txt")
-  testlabels <- read.table("./data/UCI HAR Dataset/test/y_test.txt")
-  testmeasurements <- read.table("./data/UCI HAR Dataset/test/X_test.txt")
-  
-  trainsubject <- read.table("./data/UCI HAR Dataset/train/subject_train.txt" )
-  trainlabels <- read.table("./data/UCI HAR Dataset/train/y_train.txt")
-  trainmeasurements <- read.table("./data/UCI HAR Dataset/train/X_train.txt") 
-  
-}
+# Tidy data qualities
+# - Each row is a observation, a value derived from smartphone measurements (as calculated by Anguita et.al. (2012)) 
+# - Each variable has its own column
+# - All the values form the same type of observational unit
+# - Factor data (the activity labels) have human readable values, rather than code numbers. 
+#   (Note that ParticpantId is also a factor value, but this remains a number code to preserve subject privacy.)
+
+# The 'long format' (4 columns many rows) was selected because its looks better on screen.
+# Wide format (480 columns) as qualifies as tidy but doesn't look as good.
+
+
 
 # Data acknowledgements:
 #  UCI HAR Dataset developed by:
@@ -76,13 +32,42 @@ if(!file.exists("./data/UCI HAR Dataset")){
 #  International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
 
 
+# ----------------------------
+# On simon's machine this file is located at:
+#  /home/simon/Documents/git/getdata-courseproject/run_analysis.R
+
+# ----------------------------
+
+print("This script assumes you have downloaded, decompresed and saved the directory UCI HAR Dataset in your current working directory")
+print("This script takes about 15 minutes to run.  You may want to make a cup of tea while you wait.")
+
+
+
+# Data has been downloaded and manually unzipped.
+  features <- read.table("./UCI HAR Dataset/features.txt")
+  activity <- read.table("./UCI HAR Dataset/activity_labels.txt")
+
+  testsubject <- read.table("./UCI HAR Dataset/test/subject_test.txt")
+  testlabels <- read.table("./UCI HAR Dataset/test/y_test.txt")
+  testmeasurements <- read.table("./UCI HAR Dataset/test/X_test.txt")
+  
+  trainsubject <- read.table("./UCI HAR Dataset/train/subject_train.txt" )
+  trainlabels <- read.table("./UCI HAR Dataset/train/y_train.txt")
+  trainmeasurements <- read.table("./UCI HAR Dataset/train/X_train.txt") 
+  
+
+
 # --------------------------------------------------------------------------------------------
 
-# 1b.  Merge data into tidy dataset
+# 1b.  Merge data into wide tidy dataset
+#  Table format 
+#  ParticipantID | Activity |  .... (477 Columns of PhoneMeasurement data values)
+#  (10299 rows of measurements)
+#
+
 
 # Join the test and train versions of ParticipantID 
 subjects <- rbind(testsubject, trainsubject)
-#factor(subjects)
 names(subjects)[1] <- 'ParticipantID'
       
 # Join and the test and train versions of Activity Codes
@@ -90,7 +75,7 @@ names(subjects)[1] <- 'ParticipantID'
 
 ActivityCode <- rbind(testlabels, trainlabels)
 factivity <- factor(ActivityCode[, 1])
-Activity <- factor(factivity, labels=activitylabels$V2)
+Activity <- factor(factivity, labels=activity$V2)
 
 # Join the test and train versions of the phone data
 # Label the columns using 'features'
@@ -99,36 +84,15 @@ PhoneMeasurement <- rbind(testmeasurements, trainmeasurements)
 colnames(PhoneMeasurement) <- features$V2
 PhoneMeasurement <- PhoneMeasurement[, !duplicated(colnames(PhoneMeasurement))]
 
-# Create Wide Tidy dataset
-#  Table format 
-#  ParticipantID | Activity |  .... (477 Columns of PhoneMeasurement data values)
-#  (10299 rows of measurements)
-#
-
 widetidy <- cbind (subjects,Activity,PhoneMeasurement)
 
 
 # 1c. Clean up memory.
-rm(testsubject, trainsubject, testlabels, trainlabels, activitylabels, features, factivity, testmeasurements, trainmeasurements, ActivityCode)
+rm(testsubject, trainsubject, testlabels, trainlabels, activity, features, factivity, testmeasurements, trainmeasurements, ActivityCode)
 
-
+#print(head(widetidy),1)
 # --------------------------------------------------------------------------------------------
-# STEP 2: Create a summary table showing the mean and standard deviation
-#         for each of the PhoneMeasurement columns
-
-average <- sapply(widetidy[,3:ncol(widetidy)],mean)
-sigma <- (sapply(widetidy[,3:ncol(widetidy)],sd))
-datasummary <- data.frame(average, sigma)
-
-# Export into a csv file
-write.table(datasummary, "output/phonemeasures-mean-sd.txt", sep="\t")
-
-# --------------------------------------------------------------------------------------------
-# STEP 3: Create a summary table sorted first by participant, then by activity
-#         showing the mean and standard deviation for each of the values in PhoneMeasurement
-
-# 3.a Create 'Long' tidy data frame
-
+# STEP 2: Create a long tidy data set, soemthing a bit more readable.
 # Each observation (including each observation in PhoneMeasurements) has its own row.
 
 # Table format:
@@ -137,8 +101,8 @@ write.table(datasummary, "output/phonemeasures-mean-sd.txt", sep="\t")
 
 longtidy <-data.frame()
 
-# This nexted loop is very slow (perhaps 15min) 
-#- perhaps there's an "apply" way of doing this.
+# This nested loop is very slow (perhaps 15min) 
+#- TODO: find a vectorised (possibly using one of the "apply" functions) to do this. 
 
 for (row in 1:nrow(PhoneMeasurement)) {
   longtidy[row,1] <- subjects$ParticipantID[row]
@@ -151,27 +115,28 @@ for (row in 1:nrow(PhoneMeasurement)) {
 
 colnames(longtidy) <- c("ParticipantID", "Activity", "PhoneMeasurement", "Value")
 
-print(head(longtidy))
+#print(head(longtidy))
 
 # --------------------------------------------------------------------------------------------
-# STEP 4: Create summary by mean, summary by st_dev 
-#         showing the mean and standard deviation for each of the values in PhoneMeasurement
+# STEP 3: Create mean and standard dev by phone value table (Task 2 of the assignment)
+# --------------------------------------------------------------------------------------------
+library(dplyr)
+tbl_df(longtidy)
 
+#phonemeasures_mean_stdev <- longtidy %>%
+#  group_by(PhoneMeasurement) %>%
+#  summarise(av = mean(Value), std_dev = sd(Value)) 
 
-phonemeasures_by_particpant_and_activity %>%
+# Export into a tab deliniated text file  file
+#write.table(phonemeasures_mean_stdev, "phonemeasures-mean-std_dev-step2.txt", sep="\t")
+
+# --------------------------------------------------------------------------------------------
+# STEP 4: Break it down by participant and activity  (Task 5 of the assignment)
+# --------------------------------------------------------------------------------------------
+
+phonemeasures_by_particpant_and_activity <- longtidy %>%
   group_by(ParticipantID, Activity) %>% 
-  summarise(av = mean(Value), std_dev = sd(Value))
+  summarise(av = mean(Value), std_dev = sd(Value)) 
 
 # Step 4.a: Export to tab deliniated text file.
-write.table(datasummary, "output/phonemeasures_by_particpant_and_activity.txt", sep="\t")
-
-
-# Tidy data qualities
-# - Each row is a observation, a value calculated by Anguita et.al. (2012) 
-# - Each variable has its own column
-# - All the values form the same type of observational unit
-# - Factor data (the activity labels) have human readable values, rather than code numbers. 
-#   (Note that ParticpantId is also a factor value, but this remains a number code to preserve subject privacy.)
-
-# The long (4 columns) is also printable on screen and paper printable
-# Wide (480 columns) qualifies as tidy for processing, but doesn't look as good.
+write.table(phonemeasures_by_particpant_and_activity, "phonemeasures_by_particpant_and_activity.txt-step5.txt", sep="\t", row.names = FALSE)
