@@ -61,60 +61,87 @@ img {
 
 
 
-<div id="getdata-courseproject" class="section level1">
-<h1>getdata-courseproject</h1>
-<div id="about-the-script-run_analysis.r" class="section level2">
-<h2>About the script run_analysis.R</h2>
-<p>This script produces summary values from data collected by Anguita et.al. (2012) and available for download from <a href="https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip">https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip</a>&quot;</p>
-<p>Data acknowledgements: UCI HAR Dataset developed by: Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012</p>
-<p>This this data is a series of pre-processed gyroscope and accelorometer readings collected from 30 people wearing Samsung Galaxy 3 smart phones.</p>
-<p>The script returns two files: <em>phonemeasures-mean-std_dev-step2.txt</em> a table listing the mean and standard devation of 477 Phone measurements collected by Anguita et.al. (2012) and:</p>
-<p><em>phonemeasures_by_particpant_and_activity.txt-step5.txt</em> a table providing more detailed results showing the mean and standard deviation of phone measurements collected by Anguita et.al. (2012) with a breakdown by each of the 30 participants and each of the 7 activity types.</p>
-</div>
-<div id="how-use-the-script-run_analyis.r" class="section level2">
-<h2>How use the script <em>run_analyis.R</em></h2>
-<p>STEP 1: Clone a copy of <em>run_analysis.R</em> from github using the command:</p>
-<pre><code>git clone https://github.com/FunOnTheUpfield/getdata-courseproject.git</code></pre>
-<p>Manually download the UCI HAR dataset from: <em><a href="https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip">https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip</a></em></p>
-<p>Manually unzip the file the file UCI_HAR_Dataset.zip Save the decompressed folder ‘UCI HAR Dataset’</p>
-<p>STEP 3 Execute run_analysis.R using RStudio.R Use the setwd() command to run the script from the directory where you saved the decompressed version of ‘UCI HAR Dataset’</p>
-<p>STEP 4 Go make a cup of tea. This script takes about 15 minutes to complete execution. The slowest step the code block that converts the data from a wide tidy data set (477 columns wide) to a narrow (4 columns wide) by checking each cell using a nexted loop.</p>
-<p>The code is following code block ….</p>
-<pre><code>
-for (row in 1:nrow(PhoneMeasurement)) {
-  longtidy[row,1] &lt;- subjects$ParticipantID[row]
-  longtidy[row,2] &lt;- Activity[row]
-  for (col in 1:ncol(PhoneMeasurement)) {
-    longtidy[row,3] &lt;- colnames(PhoneMeasurement[col])
-    longtidy[row,4] &lt;- PhoneMeasurement[row,col]
-    }
-  }
-</code></pre>
-<p>Any tips on using lapply or similar to speed up this operation would be greatly appreciated.</p>
-</div>
-<div id="clean-data" class="section level2">
-<h2>Clean Data</h2>
-<p>The output files of <em>run_analyis.R</em> qualify as tidy data because:</p>
-<ul>
-<li>Each row is a observation, series of data points collected when a specific participant engaged in a specific activity</li>
-<li>Each variable has its own column - Particpant_ID, Physical_Activity or a calculated value derived from phone measurement</li>
-<li>All the values form the same type of observational unit namely a value recorded from a phone sensor</li>
-<li>Factor data (the activity labels) have human readable values, rather than code numbers. Note that particpant_id is also a factor value, but this remains a number code to preserve subject privacy.</li>
-</ul>
-</div>
-<div id="development-environment-details" class="section level2">
-<h2>Development Environment Details</h2>
-<p>The script run_analyis.R was developed on a gnu-linux (Ubuntu 14.14) machine running R version 3.1.2 (Pumpkin Helmet)</p>
-</div>
-<div id="about-the-experiment-and-experiment-results-raw-data-set" class="section level2">
-<h2>About the experiment and experiment results “raw” data set</h2>
-<p>The Human Activity Recognition Using Smartphones Data Set located at <a href="https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip">https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip</a> stores the results of an experiment involving 30 subjects wearing a Samsung Galaxy 3 smartphone.</p>
-<p>Details of the experiment design and discussion of results are available from:</p>
-<p><em>Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine. International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012</em></p>
-<p>Additional information about the formatting of the raw data set <a href="http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones">http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones</a></p>
-<p>The phone accelorometer and gyroscope recorded movement in x,y,z axis. The raw accelorometer and gyroscope x,y,z values has been pre-processed both to minimise the influence of movements caused by gravity, and has been filtered to extract ‘noise’ values. For more information about this pre-processing see the file ‘UCI HAR Dataset/features_info.txt’</p>
-</div>
-</div>
+<p>The output files of run_analysis.R have the following values:</p>
+<p><strong>Values derived from Phone measurements</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">name</th>
+<th align="left">descriptor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Participant_ID</td>
+<td align="left">A unique identifier between 1 and 30. This code number identifies the participants in the Anguita et.al. (2012) study.</td>
+</tr>
+<tr class="even">
+<td align="left">Physicial_Activity</td>
+<td align="left">A descriptor of the participant’s physical activity at the time of measurement. It has one of six possible values: ( WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING)</td>
+</tr>
+<tr class="odd">
+<td align="left">average.time.body.accelerometer.mean.x.axis</td>
+<td align="left">The average value of all means for the accelerometer sensor signals attributable to body movementin the x direction in the time domain for a particular subject and activity</td>
+</tr>
+<tr class="even">
+<td align="left">average.time.body.accelerometer.mean.y.axis</td>
+<td align="left">The average value of all means for the body accelerometer sensor signals in the y direction in the time domain for a particular subject and activity</td>
+</tr>
+<tr class="odd">
+<td align="left">average.time.body.accelerometer.mean.z.axis</td>
+<td align="left">The average value of all means for the body accelerometer sensor signals in the z direction in the time domain for a particular subject and activity</td>
+</tr>
+<tr class="even">
+<td align="left">average.time.body.accelerometer.standard.deviation.x.axis</td>
+<td align="left">The average value of all standard deviations for the body accelerometer sensor signals in the x direction in the time domain for a particular subject and activity</td>
+</tr>
+<tr class="odd">
+<td align="left">average.time.body.accelerometer.standard.deviation.y.axis</td>
+<td align="left">The average value of all standard deviations for the body accelerometer sensor signals in the y direction in the time domain for a particular subject and activity</td>
+</tr>
+<tr class="even">
+<td align="left">average.time.body.accelerometer.standard.deviation.z.axis</td>
+<td align="left">The average value of all standard deviations for the body accelerometer sensor signals in the z direction in the time domain for a particular subject and activity</td>
+</tr>
+<tr class="odd">
+<td align="left">average.time.gravity.accelerometer.mean.x.axis</td>
+<td align="left">The average value of all means for the body accelerometer sensor signals attributable to gravitational attraction in the x direction in the time domain for a particular subject and activity</td>
+</tr>
+<tr class="even">
+<td align="left">average.time.gravity.accelerometer.mean.y.axis</td>
+<td align="left">The average value of all means for the body accelerometer sensor signals attributable to gravitational attraction in the y direction in the time domain for a particular subject and activity</td>
+</tr>
+<tr class="odd">
+<td align="left">average.time.gravity.accelerometer.mean.z.axis</td>
+<td align="left">The average value of all means for the body accelerometer sensor signals attributable to gravitational attraction in the z direction in the time domain for a particular subject and activity</td>
+</tr>
+</tbody>
+</table>
+<p>|average.time.gravity.accelerometer.standard.deviation.x.axis| |<br />|average.time.gravity.accelerometer.standard.deviation.y.axis| |<br />|average.time.gravity.accelerometer.standard.deviation.z.axis| |</p>
+<p>|average.time.body.accelerometer.jerk.mean.x.axis| |<br />|average.time.body.accelerometer.jerk.mean.y.axis| |<br />|average.time.body.accelerometer.jerk.mean.z.axis| |</p>
+<p>|average.time.body.accelerometer.jerk.standard.deviation.x.axis| |<br />|average.time.body.accelerometer.jerk.standard.deviation.y.axis| |<br />|average.time.body.accelerometer.jerk.standard.deviation.z.axis| |</p>
+<p>|average.time.body.gyroscope.mean.x.axis| | |average.time.body.gyroscope.mean.y.axis| | |average.time.body.gyroscope.mean.z.axis| |</p>
+<p>|average.time.body.gyroscope.standard.deviation.x.axis| | |average.time.body.gyroscope.standard.deviation.y.axis| | |average.time.body.gyroscope.standard.deviation.z.axis| |</p>
+<p>|average.time.body.gyroscope.jerk.mean.x.axis| | |average.time.body.gyroscope.jerk.mean.y.axis| | |average.time.body.gyroscope.jerk.mean.z.axis| |</p>
+<p>|average.time.body.gyroscope.jerk.standard.deviation.x.axis| | |average.time.body.gyroscope.jerk.standard.deviation.y.axis| | |average.time.body.gyroscope.jerk.standard.deviation.z.axis| |</p>
+<p>|average.time.body.accelerometer.magnitude.mean.| | |average.time.body.accelerometer.magnitude.standard.deviation.| |</p>
+<p>|average.time.gravity.accelerometer.magnitude.mean.| | |average.time.gravity.accelerometer.magnitude.standard.deviation.| |</p>
+<p>|average.time.body.accelerometer.jerk.magnitude.mean.| | |average.time.body.accelerometer.jerk.magnitude.standard.deviation.| |</p>
+<p>|average.time.body.gyroscope.magnitude.mean.| | |average.time.body.gyroscope.magnitude.standard.deviation.| |</p>
+<p>|average.time.body.gyroscope.jerk.magnitude.mean.| | |average.time.body.gyroscope.jerk.magnitude.standard.deviation.| |</p>
+<p>|average.frequency.domain.signal.body.accelerometer.mean.x.axis| | |average.frequency.domain.signal.body.accelerometer.mean.y.axis| | |average.frequency.domain.signal.body.accelerometer.mean.z.axis| |</p>
+<p>|average.frequency.domain.signal.body.accelerometer.standard.deviation.x.axis| | |average.frequency.domain.signal.body.accelerometer.standard.deviation.y.axis| | |average.frequency.domain.signal.body.accelerometer.standard.deviation.z.axis| |</p>
+<p>|average.frequency.domain.signal.body.accelerometer.-meanfrequency.x.axis| | |average.frequency.domain.signal.body.accelerometer.-meanfrequency.y.axis| | |average.frequency.domain.signal.body.accelerometer.-meanfrequency.z.axis| |</p>
+<p>|average.frequency.domain.signal.body.accelerometer.jerk.mean.x.axis| | |average.frequency.domain.signal.body.accelerometer.jerk.mean.y.axis| | |average.frequency.domain.signal.body.accelerometer.jerk.mean.z.axis| |</p>
+<p>|average.frequency.domain.signal.body.accelerometer.jerk.standard.deviation.x.axis| | |average.frequency.domain.signal.body.accelerometer.jerk.standard.deviation.y.axis| | |average.frequency.domain.signal.body.accelerometer.jerk.standard.deviation.z.axis| |</p>
+<p>|average.frequency.domain.signal.body.accelerometer.jerk.-meanfrequency.x.axis| | |average.frequency.domain.signal.body.accelerometer.jerk.-meanfrequency.y.axis| | |average.frequency.domain.signal.body.accelerometer.jerk.-meanfrequency.z.axis| |</p>
+<p>|average.frequency.domain.signal.body.gyroscope.mean.x.axis| | |average.frequency.domain.signal.body.gyroscope.mean.y.axis| | |average.frequency.domain.signal.body.gyroscope.mean.z.axis| |</p>
+<p>|average.frequency.domain.signal.body.gyroscope.standard.deviation.x.axis| | |average.frequency.domain.signal.body.gyroscope.standard.deviation.y.axis| | |average.frequency.domain.signal.body.gyroscope.standard.deviation.z.axis| |</p>
+<p>|average.frequency.domain.signal.body.gyroscope.-meanfrequency.x.axis| | |average.frequency.domain.signal.body.gyroscope.-meanfrequency.y.axis| | |average.frequency.domain.signal.body.gyroscope.-meanfrequency.z.axis| |</p>
+<p>|average.frequency.domain.signal.body.accelerometer.magnitude.mean.| | |average.frequency.domain.signal.body.accelerometer.magnitude.standard.deviation.| | |average.frequency.domain.signal.body.accelerometer.magnitude.-meanfrequency.| |</p>
+<p>|average.frequency.domain.signal.body.accelerometer.jerk.magnitude.mean.| | |average.frequency.domain.signal.body.accelerometer.jerk.magnitude.standard.deviation.| | |average.frequency.domain.signal.body.accelerometer.jerk.magnitude.-meanfrequency.| |</p>
+<p>|average.frequency.domain.signal.body.gyroscope.magnitude.mean.| | |average.frequency.domain.signal.body.gyroscope.magnitude.standard.deviation.| | |average.frequency.domain.signal.body.gyroscope.magnitude.-meanfrequency.| |</p>
+<p>|average.frequency.domain.signal.body.gyroscope.jerk.magnitude.mean. | | |average.frequency.domain.signal.body.gyroscope.jerk.magnitude.standard.deviation. | | |average.frequency.domain.signal.body.gyroscope.jerk.magnitude.-meanfrequency.| |</p>
 
 
 </div>

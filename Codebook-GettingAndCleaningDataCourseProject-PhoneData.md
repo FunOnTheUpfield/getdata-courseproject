@@ -1,40 +1,109 @@
----
-title: "Codebook - runanalysis.R
-author: "Simon Stainsby" aka FunOnTheUpfield
-date: "20/02/2015"
-output: html_document
----
-
 The output files of run_analysis.R have the following values:
 
-**Participant_ID** (Factor) A unique identifier between 1 and 30. This code number identifies the participants in the Anguita et.al. (2012) study.
 
-**Physicial_Activity** (Factor) A descriptor of the participant's physical activity at the time of measurement.  It has one of six possible values: ( WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING)
+**Values derived from Phone measurements**
 
-**PhoneMeasurement**  These are the values collected by the UCI HAR team and comprise data collected from the Samsung Galaxy 3 phones.  Descriptions of the values and the signal pre-processing undertaken to create these results from raw phone accelometer and gyroscope readings is described in the file 'UCI HAR Dataset/features_info.txt'
+| name  | descriptor|
+|---|---|
+| Participant_ID | A unique identifier between 1 and 30. This code number identifies the participants in the Anguita et.al. (2012) study.|
+| Physicial_Activity | A descriptor of the participant's physical activity at the time of measurement.  It has one of six possible values: ( WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING) |
+|average.time.body.accelerometer.mean.x.axis|The average value of all means for the accelerometer sensor signals attributable to body movement in the x direction in the time domain for a particular subject and activity |
+|average.time.body.accelerometer.mean.y.axis|The average value of all means for the accelerometer sensor signals attributable to body movement in the y direction in the time domain for a particular subject and activity |
+|average.time.body.accelerometer.mean.z.axis|The average value of all means for the accelerometer sensor signals attributable to body movement in the z direction in the time domain for a particular subject and activity |
+|average.time.body.accelerometer.standard.deviation.x.axis|The average value of all standard deveations for the accelerometer sensor signals attributable to body movement in the x direction in the time domain for a particular subject and activity  |
+|average.time.body.accelerometer.standard.deviation.y.axis|The average value of all standard deveations for the accelerometer sensor signals attributable to body movement in the y direction in the time domain for a particular subject and activity |	
+|average.time.body.accelerometer.standard.deviation.z.axis| The average value of all standard deveations for the accelerometer sensor signals attributable to body movement in the z direction in the time domain for a particular subject and activity|	
+|average.time.gravity.accelerometer.mean.x.axis| The average value of all means for the body accelerometer sensor signals attributable to gravitational attraction in the x direction in the time domain for a particular subject and activity|	
+|average.time.gravity.accelerometer.mean.y.axis| The average value of all means for the body accelerometer sensor signals attributable to gravitational attraction in the y direction in the time domain for a particular subject and activity|	
+|average.time.gravity.accelerometer.mean.z.axis| The average value of all means for the body accelerometer sensor signals attributable to gravitational attraction in the z direction in the time domain for a particular subject and activity|	
+|average.time.gravity.accelerometer.standard.deviation.x.axis|The average value of all standard devations for the body accelerometer sensor signals attributable to gravitational attraction in the x direction in the time domain for a particular subject and activity |	
+|average.time.gravity.accelerometer.standard.deviation.y.axis|The average value of all standard devations for the body accelerometer sensor signals attributable to gravitational attraction in the y direction in the time domain for a particular subject and activity |	
+|average.time.gravity.accelerometer.standard.deviation.z.axis|The average value of all standard devations for the body accelerometer sensor signals attributable to gravitational attraction in the z direction in the time domain for a particular subject and activity |	
+|average.time.body.accelerometer.jerk.mean.x.axis|The average value of all means for the body accelerometer sensor signals attributable to jerk movements in the x direction in the time domain for a particular subject and activity |	
+|average.time.body.accelerometer.jerk.mean.y.axis|The average value of all means for the body accelerometer sensor signals attributable to jerk movements in the y direction in the time domain for a particular subject and activity  |	
+|average.time.body.accelerometer.jerk.mean.z.axis| The average value of all means for the body accelerometer sensor signals attributable to jerk movements in the z direction in the time domain for a particular subject and activity |	
+|average.time.body.accelerometer.jerk.standard.deviation.x.axis|The average value of all standard deviations for the body accelerometer sensor signals attributable to jerk movements in the x direction in the time domain for a particular subject and activity |	
+|average.time.body.accelerometer.jerk.standard.deviation.y.axis| The average value of all standard deviations for the body accelerometer sensor signals attributable to jerk movements in the y direction in the time domain for a particular subject and activity|	
+|average.time.body.accelerometer.jerk.standard.deviation.z.axis|The average value of all standard deviations for the body accelerometer sensor signals attributable to jerk movements in the z direction in the time domain for a particular subject and activity |	
 
-**av** 
-In the file "phonemeasures-mean-std_dev-step2.txt"
-This value is the average (mean) of ALL observations for a given value of PhoneMeasurement.
+|average.time.body.gyroscope.mean.x.axis|As above, but results derived from based on gyroscope measurements rather than accelorometer meaurements |	
+|average.time.body.gyroscope.mean.y.axis| |	
+|average.time.body.gyroscope.mean.z.axis| |
+|average.time.body.gyroscope.standard.deviation.x.axis| |
+|average.time.body.gyroscope.standard.deviation.y.axis| |
+|average.time.body.gyroscope.standard.deviation.z.axis| |
 
-In the file "phonemeasures_by_particpant_and_activity.txt-step5.txt"
-This value is the average (mean) of PhoneMeasurement observations grouped by participant and activity.
+|average.time.body.gyroscope.jerk.mean.x.axis| |
+|average.time.body.gyroscope.jerk.mean.y.axis| |
+|average.time.body.gyroscope.jerk.mean.z.axis| |
 
-**std_dev**  
-In the file "phonemeasures-mean-std_dev-step2.txt"
-This value is the average (mean) of ALL observations for a given value of PhoneMeasurement.
+|average.time.body.gyroscope.jerk.standard.deviation.x.axis| |
+|average.time.body.gyroscope.jerk.standard.deviation.y.axis| |
+|average.time.body.gyroscope.jerk.standard.deviation.z.axis| |
 
-In the file "phonemeasures_by_particpant_and_activity.txt-step5.txt"
-This value is the average (mean) of PhoneMeasurement observations grouped by participant and activity.
+|average.time.body.accelerometer.magnitude.mean.| |
+|average.time.body.accelerometer.magnitude.standard.deviation.| |
 
+|average.time.gravity.accelerometer.magnitude.mean.| |
+|average.time.gravity.accelerometer.magnitude.standard.deviation.| |
 
+|average.time.body.accelerometer.jerk.magnitude.mean.| |
+|average.time.body.accelerometer.jerk.magnitude.standard.deviation.| |
 
-Details of the PhoneMeasurement values 
----
-The file features_info.txt provides a brief description of data categories used in the Anguita et.al. (2012) study.
+|average.time.body.gyroscope.magnitude.mean.| |
+|average.time.body.gyroscope.magnitude.standard.deviation.| |
 
-For a full description of the values and what they mean see:
-Davide Anguita, Alessandro Ghio, Luca Oneto, Xavier Parra and Jorge L. Reyes-Ortiz. 
-**Human Activity Recognition on Smartphones using a Multiclass Hardware-Friendly Support Vector Machine.**
-International Workshop of Ambient Assisted Living (IWAAL 2012). Vitoria-Gasteiz, Spain. Dec 2012
+|average.time.body.gyroscope.jerk.magnitude.mean.| |
+|average.time.body.gyroscope.jerk.magnitude.standard.deviation.| |
 
+|average.frequency.domain.signal.body.accelerometer.mean.x.axis| |
+|average.frequency.domain.signal.body.accelerometer.mean.y.axis| |
+|average.frequency.domain.signal.body.accelerometer.mean.z.axis| |
+
+|average.frequency.domain.signal.body.accelerometer.standard.deviation.x.axis| |
+|average.frequency.domain.signal.body.accelerometer.standard.deviation.y.axis| |
+|average.frequency.domain.signal.body.accelerometer.standard.deviation.z.axis| |
+
+|average.frequency.domain.signal.body.accelerometer.-meanfrequency.x.axis| |
+|average.frequency.domain.signal.body.accelerometer.-meanfrequency.y.axis| |
+|average.frequency.domain.signal.body.accelerometer.-meanfrequency.z.axis| |
+
+|average.frequency.domain.signal.body.accelerometer.jerk.mean.x.axis| |
+|average.frequency.domain.signal.body.accelerometer.jerk.mean.y.axis| |
+|average.frequency.domain.signal.body.accelerometer.jerk.mean.z.axis| |
+
+|average.frequency.domain.signal.body.accelerometer.jerk.standard.deviation.x.axis| |
+|average.frequency.domain.signal.body.accelerometer.jerk.standard.deviation.y.axis| |
+|average.frequency.domain.signal.body.accelerometer.jerk.standard.deviation.z.axis| |
+
+|average.frequency.domain.signal.body.accelerometer.jerk.-meanfrequency.x.axis| |
+|average.frequency.domain.signal.body.accelerometer.jerk.-meanfrequency.y.axis| |
+|average.frequency.domain.signal.body.accelerometer.jerk.-meanfrequency.z.axis| |
+
+|average.frequency.domain.signal.body.gyroscope.mean.x.axis| |
+|average.frequency.domain.signal.body.gyroscope.mean.y.axis| |
+|average.frequency.domain.signal.body.gyroscope.mean.z.axis| |
+
+|average.frequency.domain.signal.body.gyroscope.standard.deviation.x.axis| |
+|average.frequency.domain.signal.body.gyroscope.standard.deviation.y.axis| |
+|average.frequency.domain.signal.body.gyroscope.standard.deviation.z.axis| |
+
+|average.frequency.domain.signal.body.gyroscope.-meanfrequency.x.axis| |
+|average.frequency.domain.signal.body.gyroscope.-meanfrequency.y.axis| |
+|average.frequency.domain.signal.body.gyroscope.-meanfrequency.z.axis| |
+
+|average.frequency.domain.signal.body.accelerometer.magnitude.mean.| |
+|average.frequency.domain.signal.body.accelerometer.magnitude.standard.deviation.| |
+|average.frequency.domain.signal.body.accelerometer.magnitude.-meanfrequency.| |
+
+|average.frequency.domain.signal.body.accelerometer.jerk.magnitude.mean.| |
+|average.frequency.domain.signal.body.accelerometer.jerk.magnitude.standard.deviation.| |
+|average.frequency.domain.signal.body.accelerometer.jerk.magnitude.-meanfrequency.| |
+
+|average.frequency.domain.signal.body.gyroscope.magnitude.mean.| |
+|average.frequency.domain.signal.body.gyroscope.magnitude.standard.deviation.| |
+|average.frequency.domain.signal.body.gyroscope.magnitude.-meanfrequency.| |
+
+|average.frequency.domain.signal.body.gyroscope.jerk.magnitude.mean. | |
+|average.frequency.domain.signal.body.gyroscope.jerk.magnitude.standard.deviation. | |
+|average.frequency.domain.signal.body.gyroscope.jerk.magnitude.-meanfrequency.| |
