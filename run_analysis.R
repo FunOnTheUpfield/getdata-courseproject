@@ -90,6 +90,8 @@ human_readable <-gsub('-Z', 'z.axis', y_axis)
 
 names(widetidy) <- human_readable
 
+write.table(widetidy, "get_clean_data_course_project_widetidy.txt", sep="\t", row.names = FALSE)
+
 rm(time,fft,bodybody,body,accelerometer,gyroscope,gravity,jerk,mag,freq,mean,std,x_axis,y_axis)
 
 # --------------------------------------------------------------------------------------------

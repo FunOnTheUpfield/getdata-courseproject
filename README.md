@@ -10,7 +10,9 @@ https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Datas
 This this data is a series of pre-processed gyroscope and accelorometer readings collected from 30 people wearing Samsung Galaxy 3 smart phones. 
 
 
-The script returns the file:
+The script returns the files:
+*get_clean_data_course_project_widetidy.txt* the full UCI HAR dataset in one table.
+
 *get_clean_data_course_project_output.txt*  a table providing a suppmary of the data by Participant and Activity, an average value for each of the datapoints collected by  Anguita et.al. 
 
 
